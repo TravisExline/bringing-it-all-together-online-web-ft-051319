@@ -56,4 +56,16 @@ class Dog
     dog.save
     dog
   end
+
+  def self.find_by_id
+    sql = <<-SQL
+      SELECT * FROM dogs
+      WHERE id = ?
+      LIMIT 1
+      SQL
+
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
+  end
 end
